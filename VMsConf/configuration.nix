@@ -11,11 +11,9 @@
     ];
 
   # Use the GRUB 2 boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-#  boot.loader.grub.enable = true;
-#  boot.loader.grub.device = "/dev/sda";
-#  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -26,6 +24,10 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  systemd.tmpfiles.rules = [
+	"d /var/log/cassandra 0755 root root -"
+  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -46,8 +48,8 @@
   };
 
   # Enable the GNOME Desktop Environment.
-#  services.displayManager.gdm.enable = true;
-#  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -59,19 +61,19 @@
   console.keyMap = "es";
 
   # Enable CUPS to print documents.
-#  services.printing.enable = true;
+  services.printing.enable = true;
 
   # Enable sound with pipewire.
-#  services.pulseaudio.enable = false;
-#  security.rtkit.enable = true;
-#  services.pipewire = {
-   # enable = true;
-   # alsa.enable = true;
-   # alsa.support32Bit = true;
-   # pulse.enable = true;
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     # jack.enable = true;
-#  };
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -90,7 +92,7 @@
   };
 
   # Install firefox.
-#  programs.firefox.enable = true;
+  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -102,9 +104,13 @@
 	wget
 	git
 	jdk17
-	cassandra	
 	fastfetch
+	cassandra
  ];
+
+environment.sessionVariables = {
+	CASSANDRA_LOG_DIR = "/var/log/cassandra";
+};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
