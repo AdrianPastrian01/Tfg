@@ -18,8 +18,6 @@ if lsblk | grep sda ; then
 	mkdir -p /mnt/boot
 	mount /dev/sda1 /mnt/boot
 
-	nixos-generate-config --root /mnt
-
 	service="$1"
 
 	if [ -d /tmp/*repo*/ ]; then
@@ -32,6 +30,8 @@ if lsblk | grep sda ; then
 
 	if cp "/tmp/my-repo/VMsConf/$service/configuration.nix" /mnt/etc/nixos/ ; then
 		rm -rf /tmp/my-repo
+
+		nixos-generate-config --root /mnt
 		nixos-install --no-root-passwd
 	else
 		echo "ERROR: The configuration.nix file could not be found" >&2
