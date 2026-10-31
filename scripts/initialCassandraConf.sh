@@ -9,7 +9,7 @@ fi
 curl -L "https://github.com/AdrianPastrianTFG/Tfg.git" -o /home/adrianpr/my-repo
 
 rm -f /etc/nixos/configuration.nix
-cp /home/adrianpr/my-repo/VMsConf/configuration.nix /etc/nixos/
+cp /home/adrianpr/my-repo/VMsConf/Cassandra/configuration.nix /etc/nixos/
 
 rm -rf /home/adrianpr/*repo*
 
