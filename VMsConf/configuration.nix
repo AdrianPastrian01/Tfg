@@ -25,10 +25,6 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  systemd.tmpfiles.rules = [
-	"d /var/log/cassandra 0755 root root -"
-  ];
-
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
 
